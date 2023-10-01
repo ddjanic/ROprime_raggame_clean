@@ -4,10 +4,15 @@
 
 ## this project uses GNU GPL v3 license
 
-## coded by ddjanic@yandex.ru (@ddjanic) 01-10-2023
+## coded by ddjanic@yandex.ru (@ddjanic via telegram) 
+# ver 0.78 
+# 01-10-2023
+
 
 import os, shutil, subprocess
 
+#############################
+#
 # def remove normal folder 
 def rrem_folder(path):
     shutil.rmtree(path, ignore_errors=True, onerror=None, dir_fd=None)
@@ -17,6 +22,12 @@ def on_ro_error(func, path, exc_info):
     # let's just assume that it's read-only and unlink it.
     os.chmod(path, stat.S_IWRITE)
     os.unlink(path)
+# def func recursive del files at mask
+def files_remove(dir_path, file_extenstion):
+    for root, _, files in os.walk(dir_path):
+        for file in files: 
+            if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
+                os.remove(os.path.join(root, file)) # Just delete it
     
 #############################
 #
@@ -29,7 +40,10 @@ USRtarget = r"C:\\Users\\ddjanic"
 if os.path.exists(ROtarget) :
     subprocess.check_call(('attrib -R ' + ROtarget + '\\* /S').split())
 
-# folders:
+
+#############################
+#
+# # folders:
 # tmp    
 rrem_folder("C:\\tmp")
 rrem_folder("C:\\Temp")
@@ -54,47 +68,27 @@ rrem_folder(ROtarget + "\\Frost")
 # game dump files (.dmp files)
 dir_path = ROtarget
 file_extenstion = '.dmp' # You can change it based on your need. 
-
-for root, _, files in os.walk(dir_path):
-    for file in files: 
-        if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
-            os.remove(os.path.join(root, file)) # Just delete it
+files_remove(dir_path, file_extenstion)
             
 # game log files (.log files)
 dir_path = ROtarget + "\\gameManager"
 file_extenstion = '.log' # You can change it based on your need. 
-
-for root, _, files in os.walk(dir_path):
-    for file in files: 
-        if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
-            os.remove(os.path.join(root, file)) # Just delete it
+files_remove(dir_path, file_extenstion)
             
 # game log files in Frost folder (.log files)
 dir_path = ROtarget + "\\Frost"
 file_extenstion = '.log' # You can change it based on your need. 
-
-for root, _, files in os.walk(dir_path):
-    for file in files: 
-        if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
-            os.remove(os.path.join(root, file)) # Just delete it
+files_remove(dir_path, file_extenstion)
             
 # game txt files in Frost folder (.txt files)
 dir_path = ROtarget + "\\Frost"
 file_extenstion = '.txt' # You can change it based on your need. 
-
-for root, _, files in os.walk(dir_path):
-    for file in files: 
-        if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
-            os.remove(os.path.join(root, file)) # Just delete it
+files_remove(dir_path, file_extenstion)
             
 # game screenshots files (.jpg files)
 dir_path = ROtarget + "\\ScreenShot"
 file_extenstion = '.jpg' # You can change it based on your need. 
-
-for root, _, files in os.walk(dir_path):
-    for file in files: 
-        if file.endswith(file_extenstion): # for each file in the dir and the sub directories, if the file name ends with the '.exe'
-            os.remove(os.path.join(root, file)) # Just delete it
+files_remove(dir_path, file_extenstion)
             
 #############################
 #
